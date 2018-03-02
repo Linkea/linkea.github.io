@@ -4,13 +4,6 @@
   
     
     <entry>
-      <title><![CDATA[Test]]></title>
-      <url>http://yoursite.com/2018/03/03/Test/</url>
-      <content type="html"><![CDATA[<p>Sent from thinkpad</p>
-]]></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[Node.js异步回调-非阻塞调用简单实例]]></title>
       <url>http://yoursite.com/2017/08/12/Node-js%E5%BC%82%E6%AD%A5%E5%9B%9E%E8%B0%83-%E9%9D%9E%E9%98%BB%E5%A1%9E%E8%B0%83%E7%94%A8%E5%AE%9E%E4%BE%8B/</url>
       <content type="html"><![CDATA[<p> JavaScript是单线程运行的，但可以创建回调函数平行线程与主线程并行运行实现异步编程。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'Async'</span>);</div><div class="line">&#125;, <span class="number">500</span>);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="string">'Hello'</span>);</div></pre></td></tr></table></figure></p>

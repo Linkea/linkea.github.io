@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+    
+    <entry>
+      <title><![CDATA[Test]]></title>
+      <url>http://yoursite.com/2018/03/03/Test/</url>
+      <content type="html"><![CDATA[<p>Sent from thinkpad</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Node.js异步回调-非阻塞调用简单实例]]></title>
+      <url>http://yoursite.com/2017/08/12/Node-js%E5%BC%82%E6%AD%A5%E5%9B%9E%E8%B0%83-%E9%9D%9E%E9%98%BB%E5%A1%9E%E8%B0%83%E7%94%A8%E5%AE%9E%E4%BE%8B/</url>
+      <content type="html"><![CDATA[<p> JavaScript是单线程运行的，但可以创建回调函数平行线程与主线程并行运行实现异步编程。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'Async'</span>);</div><div class="line">&#125;, <span class="number">500</span>);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="string">'Hello'</span>);</div></pre></td></tr></table></figure></p>
+ <a id="more"></a>
+<p>输出结果可以看到后续打印代码先于回调代码执行。<br><img src="http://oghmhjnym.bkt.clouddn.com/HelloAsync.png"><br>但即使平行线程执行完毕了通知主线程进行回调时，回调函数也需等到主线程空闲时才可执行。</p>
+<p>同样的， <strong>Node.js依赖回调函数实现异步I/O，所有API都支持回调函数，通过非阻塞调用异步来实现处理高并发请求</strong><br>新建文件<code>fsAsyncTest.txt</code>,写入<code>Hello Async</code>并保存。<br>创建实例<code>fsReadTest.js</code>代码如下<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>); </div><div class="line">fs.readFile(<span class="string">'fsAsyncTest.txt'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">err,data</span>)</span>&#123;</div><div class="line">    <span class="keyword">if</span> (err) <span class="keyword">return</span> <span class="built_in">console</span>.error(err);</div><div class="line">    <span class="built_in">console</span>.log(data.toString());</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="string">'Finish Read'</span>);</div></pre></td></tr></table></figure></p>
+<p>输出结果同样可以看到后续打印先于回调代码执行。<br><img src="http://oghmhjnym.bkt.clouddn.com/fsAsync.png"><br>异步通过回调函数实现了在读取文件时同时执行后续代码，无需等待文件读取完再执行后续代码，非阻塞调用提高了性能。</p>
+<p>参考资料：<a href="http://http://nqdeng.github.io/7-days-nodejs/#6/" target="_blank" rel="external">阿里巴巴Node.js文档</a></p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[抓取目标url指定数据并截图-PhantomJS简单爬虫应用实例]]></title>
+      <url>http://yoursite.com/2017/05/02/%E6%8A%93%E5%8F%96%E7%9B%AE%E6%A0%87url%E6%8C%87%E5%AE%9A%E6%95%B0%E6%8D%AE%E5%B9%B6%E6%88%AA%E5%9B%BE-Phantomjs%E7%AE%80%E5%8D%95%E7%88%AC%E8%99%AB%E5%BA%94%E7%94%A8%E5%AE%9E%E4%BE%8B/</url>
+      <content type="html"><![CDATA[<p> <strong>PhantomJS是一个无界面的,可脚本编程的WebKit浏览器引擎。它原生支持多种web 标准：DOM 操作，CSS选择器，JSON，Canvas 以及SVG。</strong><br> 基于这点，我们可以利用PhantomJS做一个小爬虫。</p>
+<p> <strong>需求：</strong><br> 抓取<a href="http://www.cninfo.com.cn/information/companyinfo_n.html?fulltext?szcn300023" target="_blank" rel="external">公司资讯-巨潮资讯</a>财务指标页面上该公司的资产负债率。<br> <a id="more"></a><br> <img src="http://oghmhjnym.bkt.clouddn.com/catch.png"><br> <strong>环境：</strong><br> 下载并安装<a href="http://phantomjs.org/download.html" target="_blank" rel="external">PhantomJS</a> ，并添加Path环境变量。</p>
+<p> <strong>代码如下（test.js）：</strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> page = <span class="built_in">require</span>(<span class="string">'webpage'</span>).create();  <span class="comment">//创建webpage对象</span></div><div class="line"><span class="keyword">var</span> url = <span class="string">'http://www.cninfo.com.cn/information/companyinfo_n.html?fulltext?szcn300023'</span>; <span class="comment">//设置目标url地址</span></div><div class="line">phantom.outputEncoding = <span class="string">'gbk'</span>;  <span class="comment">//设置编码</span></div><div class="line">page.open(url, <span class="function"><span class="keyword">function</span> (<span class="params">status</span>)  //打开页面</span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span> (status != <span class="string">'success'</span>) <span class="comment">//判断是否载入成功</span></div><div class="line">    &#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'Page failed to load.'</span>);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    page.evaluate(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) //调出<span class="title">console</span>控制台对上下文进行交互</span></div><div class="line">    &#123;     </div><div class="line">        toLm(<span class="string">'cwzb'</span>);  <span class="comment">//跳转到“财务报表”页面</span></div><div class="line">        <span class="built_in">window</span>.scrollTo(<span class="number">0</span>,<span class="number">10000</span>);      <span class="comment">//滑动至页底</span></div><div class="line">        <span class="built_in">window</span>.setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)  //延迟5000<span class="title">ms</span>进行<span class="title">DOM</span>操作抓取目标节点<span class="title">Node</span>内容</span></div><div class="line">        &#123;           </div><div class="line">           <span class="keyword">var</span> data = <span class="built_in">String</span>(<span class="built_in">document</span>.querySelectorAll(<span class="string">'iframe'</span>)[<span class="number">0</span>].contentDocument.querySelector(<span class="string">'.zx_left'</span>).childNodes[<span class="number">3</span>].childNodes[<span class="number">1</span>].childNodes[<span class="number">1</span>].childNodes[<span class="number">16</span>].childNodes[<span class="number">3</span>].childNodes[<span class="number">1</span>].childNodes[<span class="number">0</span>].nodeValue);</div><div class="line">           <span class="built_in">console</span>.log(data);  <span class="comment">//打印至控制台 </span></div><div class="line">        &#125;,<span class="number">5000</span>);</div><div class="line">    &#125;);</div><div class="line">      </div><div class="line">    page.onConsoleMessage = <span class="function"><span class="keyword">function</span>(<span class="params">msg, lineNum, sourceId</span>)  //输出控制台内容</span></div><div class="line">    &#123;          </div><div class="line">              <span class="built_in">console</span>.log(<span class="string">'CONSOLE:'</span> + msg);      </div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    <span class="built_in">window</span>.setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) //延迟5500<span class="title">ms</span>进行页面截图并保存为'<span class="title">screenshot</span>.<span class="title">png</span>'</span></div><div class="line">    &#123;</div><div class="line">        page.render(<span class="string">'screenshot.png'</span>);</div><div class="line">        phantom.exit();</div><div class="line">    &#125;, <span class="number">5000</span>+<span class="number">500</span>);    </div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p><strong>输出结果</strong><br><img src="http://oghmhjnym.bkt.clouddn.com/cmd1.png"><br><strong>输出至文本（data.txt）</strong><br><img src="http://oghmhjnym.bkt.clouddn.com/cmd2.png"></p>
+<p>参考资料：<a href="http://phantomjs.org/" target="_blank" rel="external">PhantomJS.org</a></p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Javascript作用域链与闭包]]></title>
+      <url>http://yoursite.com/2017/04/06/Javascript%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E4%B8%8E%E9%97%AD%E5%8C%85/</url>
+      <content type="html"><![CDATA[<p><strong>闭包是指有权访问另一个函数作用域中的变量的函数。创建闭包的常见方式，就是在一个函数内部创建另一个函数。</strong> </p>
+<blockquote>
+<p><strong>创建作用域链过程及作用细节：</strong><br>当某个函数第一次被调用时，会创建一个执行环境（execution context）及相应的作用域链（Scope Chain），并把作用域链赋值给一个特殊的内部属性（即[[Scope]]）。然后，使用this、arguments和其他命名参数的值来初始化函数的活动对象（activation object）。但在作用域链中，外部函数的活动对象始终处于第二位，外部函数的外部函数的活动对象处于第三位，……直至作为作用域链终点的全局执行环境。<a id="more"></a><br>在函数执行过程中，为读取和写入变量的值，就需要在作用域链中查找变量。<br>当调用函数时，会为函数创建一个执行环境，然后通过复制函数的[[Scope]]属性中的对象构建起执行环境的作用域链。此后，又有一个活动对象（在此作为变量对象使用）被创建并被推入执行环境作用域链的前端。<br>作用域链本质上是一个指向变量对象的指针列表，它只引用但不实际包含变量对象。</p>
+</blockquote>
+<p><img src="http://oghmhjnym.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20170406235809.jpg"><br><strong>闭包情况下，即便内部函数被返回了而且在其他地方被调用了，它仍然可以访问外部函数变量，即内部函数作用域链中包含外部函数的作用域。</strong><br><strong>在另一个函数内部定义的函数会将包含函数（即外部函数）的活动对象添加到它的作用域链中。而当这个函数执行完毕后，作用域链被销毁，而活动对象仍保留在内存中，直到函数被销毁(=null)。</strong><br><strong>因此闭包会携带包含它的函数的作用域，比其它函数更占内存，应谨慎使用。</strong></p>
+<p>参考资料：《Javascript高级程序设计》</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[IFE百度前端技术学院-JavaScript Task01]]></title>
+      <url>http://yoursite.com/2017/02/24/IFE%E7%99%BE%E5%BA%A6%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF%E5%AD%A6%E9%99%A2-JavaScript-Task01/</url>
+      <content type="html"><![CDATA[<p>本任务完成的功能为：用户可以在输入框中输入任何内容，点击“确认填写”按钮后，用户输入的内容会显示在“您输入的值是”文字的右边。<br><a href="https://github.com/Linkea/IFE-JavaScript-Tasks/blob/master/IFE%20JavaScript%20Task%2001/task1.html" target="_blank" rel="external">提交源码</a><br><a href="http://htmlpreview.github.io/?https://github.com/Linkea/IFE-JavaScript-Tasks/blob/master/IFE%20JavaScript%20Task%2001/task1.html" target="_blank" rel="external">预览效果</a><br><strong>遇到的问题：新发现(function() { /<em> code </em>/ })();的写法</strong><br><a id="more"></a></p>
+<blockquote>
+<p><strong>自执行匿名函数</strong>：<br>    常见格式：(function() { /<em> code </em>/ })();<br>    解释：包围函数（function(){})的第一对括号向脚本返回未命名的函数，随后一对空括号立即执行返回的未命名函数，括号内为匿名函数的参数。<br>    作用：可以用它创建命名空间，只要把自己所有的代码都写在这个特殊的函数包装内，那么外部就不能访问，除非你允许(变量前加上window，这样该函数或变量就成为全局)。各JavaScript库的代码也基本是这种组织形式。</p>
+</blockquote>
+<p>总结一下，执行函数的作用主要为 匿名 和 自动执行,代码在被解释时就已经在运行了。<br>其他写法<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="comment">/* code */</span> &#125; ()); </div><div class="line">!<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="comment">/* code */</span> &#125; ();</div><div class="line">~<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="comment">/* code */</span> &#125; ();</div><div class="line">-<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="comment">/* code */</span> &#125; ();</div><div class="line">+<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="comment">/* code */</span> &#125; ();</div></pre></td></tr></table></figure></p>
+<p><a href="https://segmentfault.com/q/1010000000135703" target="_blank" rel="external">参考资料</a></p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[JavaScript组合继承及寄生组合式继承]]></title>
+      <url>http://yoursite.com/2017/02/04/JavaScript%E7%BB%84%E5%90%88%E7%BB%A7%E6%89%BF%E5%8F%8A%E5%AF%84%E7%94%9F%E7%BB%84%E5%90%88%E5%BC%8F%E7%BB%A7%E6%89%BF/</url>
+      <content type="html"><![CDATA[<p><strong>组合继承，有时候也叫做伪经典继承，指的是将原型链和借用构造函数的技术组合到一块，从而发挥二者之长的一种继承模式。</strong>其背后的思路是使用原型链实现对原型属性和方法的继承，而通过借用构造函数来实现对实例属性的继承。这样，既通过在原型上定义方法实现了函数复用，又能够保证每个实例都有它自己的属性。 <a id="more"></a><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">SuperType</span>(<span class="params">name</span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.name = name;</div><div class="line">    <span class="keyword">this</span>.colors = [<span class="string">"red"</span>, <span class="string">"blue"</span>, <span class="string">"green"</span>];</div><div class="line">&#125;</div><div class="line">SuperType.prototype.sayName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    alert(<span class="keyword">this</span>.name);</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">SubType</span>(<span class="params">name, age</span>) </span>&#123;</div><div class="line">    SuperType.call(<span class="keyword">this</span>, name);</div><div class="line">    <span class="keyword">this</span>.age = age;</div><div class="line">&#125;</div><div class="line"><span class="comment">//继承方法</span></div><div class="line">SubType.prototype = <span class="keyword">new</span> SuperType();</div><div class="line">SubType.prototype.sayAge = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    alert(<span class="keyword">this</span>.age);</div><div class="line">&#125;</div><div class="line"> </div><div class="line"><span class="keyword">var</span> instance1 = <span class="keyword">new</span> SubType(<span class="string">"Nicholas"</span>, <span class="number">29</span>);</div><div class="line">instance1.colors.push(<span class="string">"black"</span>);</div><div class="line">alert(instance1.colors); <span class="comment">//red,blue,green,black</span></div><div class="line">instance1.sayName(); <span class="comment">//Nicholas</span></div><div class="line">instance1.sayAge(); <span class="comment">//29</span></div><div class="line"> </div><div class="line"><span class="keyword">var</span> instance2 = <span class="keyword">new</span> SubType(<span class="string">"Greg"</span>, <span class="number">27</span>);</div><div class="line">alert(instance2.colors); <span class="comment">//red,blue,green</span></div><div class="line">instance2.sayName(); <span class="comment">//Greg</span></div><div class="line">instance2.sayAge(); <span class="comment">//27</span></div></pre></td></tr></table></figure></p>
+<p><strong>寄生组合式继承，集寄生式继承和组合继承的优点与一身，是实现基于类型继承的最有效方式。</strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">inheritPrototype</span>(<span class="params">subType, superType</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> prototype = object(superType.prototype);  <span class="comment">//创建对象</span></div><div class="line">    prototype.constructor = subType;              <span class="comment">//增强对象</span></div><div class="line">    subType.prototype = prototype;                <span class="comment">//指定对象</span></div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">SuperType</span>(<span class="params">name</span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.name = name;</div><div class="line">    <span class="keyword">this</span>.colors = [<span class="string">"red"</span>, <span class="string">"blue"</span>, <span class="string">"green"</span>];</div><div class="line">&#125;</div><div class="line">SuperType.prototype.sayName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    alert(<span class="keyword">this</span>.name);</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">SubType</span>(<span class="params">name, age</span>) </span>&#123;</div><div class="line">    SuperType.call(<span class="keyword">this</span>, name);</div><div class="line">    <span class="keyword">this</span>.age = age;</div><div class="line">&#125;</div><div class="line"></div><div class="line">inheritPrototype(SubType, SuperType);</div><div class="line"></div><div class="line">SubType.prototype.sayAge = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    alert(<span class="keyword">this</span>.age);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> instance1 = <span class="keyword">new</span> SubType(<span class="string">"Nicholas"</span>, <span class="number">29</span>);</div><div class="line">instance1.colors.push(<span class="string">"black"</span>);</div><div class="line">alert(instance1.colors);  <span class="comment">//"red,blue,green,black"</span></div><div class="line">instance1.sayName();      <span class="comment">//"Nicholas"</span></div><div class="line">instance1.sayAge();       <span class="comment">//29</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> instance2 = <span class="keyword">new</span> SubType(<span class="string">"Greg"</span>, <span class="number">27</span>);</div><div class="line">alert(instance2.colors);  <span class="comment">//"red,blue,green"</span></div><div class="line">instance2.sayName();      <span class="comment">//"Greg"</span></div><div class="line">instance2.sayAge();       <span class="comment">//27</span></div></pre></td></tr></table></figure></p>
+<p>参考资料：《JavaScript高级程序设计》</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[微交互-细节决定成败]]></title>
+      <url>http://yoursite.com/2017/01/14/%E5%BE%AE%E4%BA%A4%E4%BA%92-%E7%BB%86%E8%8A%82%E5%86%B3%E5%AE%9A%E6%88%90%E8%B4%A5/</url>
+      <content type="html"><![CDATA[<blockquote>
+<p>细节不仅仅是细节，而是设计。 细节可以让用户更方便、更愉快地使用产品，尽管人们事后不会记得它们。<br>-Charles Eames（Eames Office, 2007）</p>
+</blockquote>
+<p>细节重要性可见一斑。用户体验所关注的细节即微交互，虽然微小但意义重大。<br>那么何为微交互？</p>
+<blockquote>
+<p><strong>微交互就是产品那些功能性的细节。专注于微交互是创建优秀用户体验的必由之路。</strong></p>
+</blockquote>
+<p>微交互不是功能，但与宏观功能完美契合是最强大的。用户体验的本质就在于：既要关注细节，又要关注大局。只有这样用户才能获得最好的用户体验。正如“细节决定成败”，做人是如此，做产品也是如此，好的用户体验不仅仅是大局上的易用，更体现在细节的人性化。<br><a id="more"></a><br>微交互与功能的区别，主要在于规模和范围。功能一般都比较复杂（多种用途），需要花较多时间熟悉，而且涉及认知的塑造。<br>微交互一般都简单明了， 认知上毫无压力。<br>Dan Saffer对微交互进行了定义并给出如下建议：</p>
+<p><strong>微交互适合如下应用场景：</strong></p>
+<blockquote>
+<p>只完成一项任务；<br>连接不同的设备；<br>只影响一个数据，比如股票价格或温度；<br>控制正在进行的过程，比如切换电视频道；<br>调整某项设置；<br>查看或创建一小部分内容，比如状态消息；<br>打开或关闭某项功能。</p>
+</blockquote>
+<p><strong>把微交互集成到产品中有三种方式：</strong></p>
+<blockquote>
+<p>逐个设计微交互；<br>把复杂的功能简化为基本的微交互；<br>把每个功能当作一组相互联系的微交互。</p>
+</blockquote>
+<p><strong>一个微交互由四个部分构成:触发器启动微交互、规则规定微交互如何起作用、反馈传达规则信息,而循环和模式构成微交互的元规则。</strong></p>
+<p><strong>触发器：</strong></p>
+<blockquote>
+<p>触发器就是任何能够启动微交互的东西。手动触发器是由用户发起的，可以是控件、图标、表单、声音、触摸或手势。系统触发器会在某个或某些条件具各时触发。<br>触发器必须能在特定上下文中让用户联想到它是触发器。同样的触发器每次都应该执行同样的操作。<br>别忘了提前展示数据。只要有可能，就要通过触发器来展示微交互内部的重要信息，比如未读短信或操作进度。<br>如果触发器看起来像按钮，那么它就应该像按钮一样可以被点击。不要破坏视觉使用情境。<br>使用频率越高的微交互，其触发器应该越引人注目。最差也要作为菜单项摆放触发器。<br>在触发器无法传达所有必要信息或者有必要消除歧义时，可以使用标签。标签应该使用通俗直白的语言，而且要简洁明了。<br>系统触发器何时触发，以及多长时间触发一次，都要遵循规则。</p>
+</blockquote>
+<p><strong>规则：</strong></p>
+<blockquote>
+<p>规则是微交互模型的非技术层面，规定了什么可以做，什么不可以做，以什么顺序做。<br>规则必须反映约束。业务、上下文和技术约束都要仔细斟酌。<br>不要从零开始。以你对用户、平台或环境的了解为基础，然后致力于改进微交互。<br>去除复杂性，把控件数量减至最少。<br>减少选项并给出聪明的默认项。选项越多，规则越多。<br>为每个对象定义状态。这些东西随着时间或根据交互情境怎么变化？<br>宁肯多花时间提高辨识度。以少搏多。<br>使用规则预防错误。让用户不可能犯错。<br>让文案尽量简短。标签够用时，不要使用说明性文本。<br>协助定义算法。在决定后的代码中体现人类的价值。</p>
+</blockquote>
+<p><strong>反馈：</strong></p>
+<blockquote>
+<p>掌握用户什么时候需要知道什么信息。所有反馈都以这些信息为基础。<br>反馈的目的是让用户理解微交互的规则。确定哪个规则值得反馈。<br>选择需要通过反馈传达的消息，然后再选择正确的一个或多个渠道。<br>关注情境并关注反馈能否（或是否应该）随之改变。<br>坚持以人为本。反馈可以利用人性化的外表为微交互增添人性光辉。<br>使用既有的UI元素传达反馈信息。在增加视觉元素前尽可能利用己有元素。<br>不要随意反馈。把反馈与控件关联起来，或者通过它引导用户行为。<br>尽可能对用户发起的动作采用视觉反馈。需要强调或报警时，使用听觉和触觉反馈。</p>
+</blockquote>
+<p><strong>循环与模式：</strong></p>
+<blockquote>
+<p>只有在某个动作会干扰微交互时才需要设计新模式。<br>如果必须有新模式，尽可能给它设计一个专用屏幕。<br>对于能够快速完成的动作，可以考虑弹簧模式或一次性模式，而非传统模式。<br>使用循环扩展微交互的生命周期。<br>仔细确定循环的参数，以保证最佳的用户体验。<br>使用长循环赋予微交互记忆力，或者使其能随着时间推移渐进揭示或渐进减少新功能。</p>
+</blockquote>
+<p><strong>微交互测试流程</strong><br>在向参与者展示原型前，询问他们期待的微交互的工作方式。询问他们过去用没用过类似的功能。询问他们想通过微交互做一件什么事。确认他们在使用微交互之前想知道什么，即是不是有什么信息可以让他们完全不必使用微交互。<br>让参与者在完全没人帮助的情况下使用微交互。所有定量数据都要在此时，以及之后收集。<br>随着参与者一步步地使用微交互，让他们说出自己的印象和判断。聆听参与者是否能说出微交互的工作过程规则）。注意与实际不相符的地方。<br>询问他们第二天还会不会再用，以及他们希望微交互记住关于他们的什么信息。<br>最后，再询问他们哪里应该修改。</p>
+<p>参考资料：《微交互：细节设计成就卓越产品》</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[App的未来用户体验-Progressive Web App]]></title>
+      <url>http://yoursite.com/2016/12/24/App%E7%9A%84%E6%9C%AA%E6%9D%A5%E7%94%A8%E6%88%B7%E4%BD%93%E9%AA%8C-Progressive-Web-App/</url>
+      <content type="html"><![CDATA[<p><strong>Progressive Web App</strong>(<em>PWA</em>) 是 Google 在 Web 平台开始推广的一个新概念，可以理解为是尽可能借助目前的新技术（比如 Service Worker ， Push Notification 及其他展现层的新技术），让 Web App 的体验无限接近 Native App 。Native App，即本地化App，日常使用的iOS/Android应用即Native App。</p>
+<blockquote>
+<p>Progressive 主要有这两层含义<br>如果用户需要，网页可以渐进式地变成 App，比如被添加到主屏幕、全屏方式运行、离线工作、推送通知消息等。但它仍是 Web 而非放到 App Store 里。<br>所有这些“使得 Web 更能与 App 匹敌”的特性都是以渐进的方式增强的，在比传统网页应用更好的同时也保证了降级兼容。</p>
+</blockquote>
+<a id="more"></a>
+<p><strong>Progressive Web App的外观和行为都同原生移动应用类似，但它本质上上仍然是Web应用，不需要通过应用商店部署从PWA这些特性来看，无论对于开发者，还是对于用户，都能实现绝佳的用户体验。对开发人员而言，他们无需通过应用商店发布应用，版本发布和Bug修复可以更及时。对用户而言，他们无需在设备上安装应用。与原生/混合应用相比，这大大节省了设备的存储空间。</strong></p>
+<p><img src="http://oghmhjnym.bkt.clouddn.com/pwa.gif"></p>
+<div align="center">PWA使用演示</div>
+
+<p><br></p>
+<blockquote>
+<p><strong>PWA可替代Nativa App的基本优点</strong><br>可添加到主屏幕及全屏运行(提供Native App的外观行为,类App的原生交互)<br>离线能力（保证断网/弱网下可用）<br>通知推送（唤回用户及通知即时消息）</p>
+<p><strong>PWA相比Nativa App的主要优点</strong><br>渐进增强（为支持的设备提供更好体验同时保证不支持设备的基本体验）<br>敏捷开发部署（版本更新无需通过商店审核，保证开发速度）<br>异步加载（保证可用性及解决网络连接加载数据延迟）<br>免下载安装，即点即用（充分利用Web优点，解决App需安装而造成用户流失问题）<br>轻量级（提供网页般的启动速度及性能）</p>
+</blockquote>
+<p>PWA能提供类Native App的原生交互体验,但限于浏览器性能及网络性能，PWA在目前只能算未来的App替代品，所以标题取之未来用户体验，及PWA在未来提供的相比Native App更好的用户体验。<br>但<strong>PWA附加提供的免安装即点即用特性能带来更多的新用户及增强用户的黏性，消除版本安装/更新麻烦给用户带来的隐形壁垒而造成的隐藏用户流失，及提供快速的产品使用体验。</strong></p>
+<p><img src="http://oghmhjnym.bkt.clouddn.com/85596129809131dc20371491e4acb9ee_r.png"></p>
+<p><div align="center">Mobile Web的月UV领先Mobile App（8.9M vs. 3.3M）</div><br><br><br>个人认为长远来看，如果PWA计划实行成功，必将取代Native App，提供更好的交互体验，尤其在保证Native App的外观/行为体验上提供更好的免安装即点即用的体验，这将给当前App市场带来新一轮革命。</p>
+<p>参考资料：<a href="https://www.zhihu.com/question/46690207?sort=created" target="_blank" rel="external">知乎</a></p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Material Design设计模式]]></title>
+      <url>http://yoursite.com/2016/12/20/Material-Design%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</url>
+      <content type="html"><![CDATA[<p><strong>Material Design</strong>，中文名译为<strong>材料设计</strong>，是由Google开发的设计语言，于2014年6月25日的Google I/O大会上宣布。Material Design基于网格的布局、响应动画与过渡、填充、深度效果（如光线和阴影）。</p>
+<blockquote>
+<p>与真正的纸张不同，我们的数字材质可以智能地扩大和变形。材质具有实体的表面和边缘。接缝和阴影表明组件的含义。<br>-设计师马迪亚斯·杜阿尔特</p>
+</blockquote>
+<p>本文主要简明阐述Material Design的优点-给UX/IxD领域带来的用户体验优化，及其主要设计规范。<br><a id="more"></a><br>Google指出他们的新设计语言基于纸张和油墨。下图为部分Material UI设计控件展示。<br><br><img src="http://oghmhjnym.bkt.clouddn.com/Material_Design.svg.png" width="400px"></p>
+<blockquote>
+<h3>Material Design设计原则</h3>
+
+<p><strong>实体感就是(通过设计方式来表达)隐喻</strong><br>Material Design力图构建跨平台和超越设备尺寸的统一体验。<br>遵循基本的移动设计定则，同时支持触摸、语音、鼠标、键盘等输入方式。</p>
+<p><strong>鲜明、形象、深思熟虑</strong><br>实体的表面和边缘提供基于真实效果的视觉体验，熟悉的触感让用户可以快速地理解和认知。实体的多样性可以让我们呈现出更多反映真实世界的设计效果，但同时又绝不会脱离客观的物理规律。</p>
+<p>光效、表面质感、运动感这三点是解释物体运动规律、交互方式、空间关系的关键。真实的光效可以解释物体之间的交合关系、空间关系，以及单个物体的运动。</p>
+<p>有意义的动画效果新的视觉语言，在基本元素的处理上，借鉴了传统的印刷设计—排版、网格、空间、比例、配色、图像使用—这些基础的平面设计规范。在这些设计基础上下功夫，不但可以愉悦用户，而且能够构建出视觉层级、视觉意义以及视觉聚焦。精心选择色彩、图像、选择合乎比例的字体、留白，力求构建出鲜明、形象的用户界面，让用户沉浸其中。Material Design 设计语言强调根据用户行为凸显核心功能，进而为用户提供操作指引。</p>
+<p><strong>有意义的动画效果</strong><br>动画效果可以有效地暗示、指引用户。动效的设计要根据用户行为而定，能够改变整体设计的触感。动效应当在独立的场景呈现。通过动效，让物体的变化以更连续、更平滑的方式呈现给用户，让用户能够充分知晓所发生的变化。动效应该是有意义的、合理的，动效的目的是为了吸引用户的注意力，以及维持整个系统的连续性体验。动效反馈需细腻、清爽。转场动效需高效、明晰。</p>
+</blockquote>
+<p><br></p>
+<blockquote>
+<p></p><h3>材料</h3><br>Material design中，最重要的信息载体就是魔法纸片。纸片层叠、合并、分离，拥有现实中的厚度、惯性和反馈，同时拥有液体的一些特性，能够自由伸展变形。<p></p>
+</blockquote>
+<p><img src="http://oghmhjnym.bkt.clouddn.com/b-1.gif"></p>
+<p><br></p>
+<blockquote>
+<p></p><h3>环境</h3><br>三维世界<br><br>光影关系<p></p>
+</blockquote>
+<p><img src="http://oghmhjnym.bkt.clouddn.com/zofmd.png" alt="具备 x，y 和 z 轴的 3D 空间"><br>三维世界,具备 x，y 和 z 轴的 3D 空间,Material 环境是一个三维的空间，这意味着每个对象都有 x ， y ， z 三维坐标属性，z 轴垂直于显示平面，并延伸向用户视角,每个 material 元素在 z 轴上占据一定的位置并且有一个 1dp 厚度的标准。 在网页上，z 轴被用来分层而不是为了视角。3D 空间通过操纵 y 轴进行仿真。</p>
+<p><br></p>
+<p><img src="http://oghmhjnym.bkt.clouddn.com/lofmd.png"><br>光影关系 在 material 环境中，虚拟的光线照射使场景中的对象投射出阴影，主光源投射出一个定向的阴影，而环境光从各个角度投射出连贯又柔和的阴影。 </p>
+<p><br></p>
+<blockquote>
+<p></p><h3>Material属性</h3><br>物理特性<br>材料具有变化的长宽尺寸（以 dp 为计）和均匀的厚度（1dp）。<p></p>
+</blockquote>
+<p><img src="http://oghmhjnym.bkt.clouddn.com/2.png"></p>
+<p><br></p>
+<blockquote>
+<p></p><h3>高度</h3><br>高度是在 Z 轴上两个不同平面之间的一种相对深度或距离。<p></p>
+</blockquote>
+<p><img src="http://oghmhjnym.bkt.clouddn.com/hdofmd.png"></p>
+<div align="center">两个对象间的多种高度度量</div><br><br><br><img src="http://oghmhjnym.bkt.clouddn.com/3_2.png"><br><div align="center">多种元素的静止高度和动态高度偏移</div><br><br><br><img src="http://oghmhjnym.bkt.clouddn.com/3_3.png"><br><div align="center">一个包含卡片和FAB应用布局的实例与它在Z轴上元素高度的横截面图表</div><br><br><br><img src="http://oghmhjnym.bkt.clouddn.com/3_4.png"><br><div align="center">一个包含开放导航抽屉的应用布局实例与它在Z轴上元素高度的横截面图表</div>
+
+<p><br></p>
+<blockquote>
+<p></p><h3>阴影</h3><br>“阴影”提供了对象深度和方向性移动的重要视觉线索。它们是唯一一种标示不同平面之间分离程度的视觉线索。某一对象的“高度”决定了其具体“阴影”的表现形式。<p></p>
+</blockquote>
+<p><img src="http://oghmhjnym.bkt.clouddn.com/3_7.png"><br><img src="http://oghmhjnym.bkt.clouddn.com/3_10.png"></p>
+<div align="center">连贯的阴影帮助用户明白某一个对象看起来好像是它的高度在增加其实是它的形状在改变。</div>
+
+<p><br></p>
+<blockquote>
+<p></p><h3>动画</h3><br>动画不只是装饰，它有含义，能表达元素、界面之间的关系，具备功能上的作用。<br>体积和重量<br>物理世界中物体拥有质量，所以只有当施加给它们力量的时候才会移动，因此物体没法在瞬间开始或者结束动作。动画突然开始或者停止，或者在运动时突兀的变化方向，都会使用户感到意外和不和谐的干扰。<p></p>
+</blockquote>
+<p><img src="http://oghmhjnym.bkt.clouddn.com/b-2.gif"><br><img src="http://oghmhjnym.bkt.clouddn.com/b-3.gif"><br><img src="http://oghmhjnym.bkt.clouddn.com/b-4.gif"><br><img src="http://oghmhjnym.bkt.clouddn.com/b-5.gif"><br>所有可点击的元素，都应该有这样的反馈效果。通过这个动画，将点击的位置与所操作的元素关联起来，体现了Material design动画的功能性。</p>
+<p><img src="http://oghmhjnym.bkt.clouddn.com/b-6.gif"></p>
+<div align="center">通过过渡动画，表达界面之间的空间与层级关系，并且跨界面传递信息</div><br><br><br><img src="http://oghmhjnym.bkt.clouddn.com/b-7.gif"><br><div align="center">从父界面进入子界面，需要抬升子元素的海拔高度，并展开至整个屏幕，反之亦然</div><br><br><br><img src="http://oghmhjnym.bkt.clouddn.com/b-8.gif"><br><div align="center">多个相似元素，动画的设计要有先后次序，起到引导视线的作用</div><br><br><br><img src="http://oghmhjnym.bkt.clouddn.com/b-9.gif"><br><div align="center">相似元素的运动，要符合统一的规律</div><br><br><br><img src="http://oghmhjnym.bkt.clouddn.com/b-10.gif"><br><div align="center">通过图标的变化和一些细节来达到令人愉悦的效果</div><br><br><br><img src="http://oghmhjnym.bkt.clouddn.com/b-11.gif"><br><img src="http://oghmhjnym.bkt.clouddn.com/a-30.png"><br><div align="center">图片加载过程透明度、曝光度、饱和度3个指标依次变化，效果相当细腻</div>
+
+<p>参考资料：<a href="http://wiki.jikexueyuan.com/project/material-design/" target="_blank" rel="external">Material Design中文版规范</a></p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[简约至上-简约四策略]]></title>
+      <url>http://yoursite.com/2016/11/12/%E7%AE%80%E7%BA%A6%E8%87%B3%E4%B8%8A-%E7%AE%80%E7%BA%A6%E5%9B%9B%E7%AD%96%E7%95%A5/</url>
+      <content type="html"><![CDATA[<p>著名交互式设计与易用性专家  Giles Colbome，在《简约至上:交互式设计四策略》中指出</p>
+<blockquote>
+<p>增加的功能越多，就越难发现真正对用户有价值的新功能。这样盲目添加的新功能早晚会成为垃圾功能。增加复杂性意味着遗留代码越来越沉重，导致产品维护成本越来越高，而且也越来越难以灵活应对市场变化。<br>与此同时，用户也会对你的产品越来越不满意。因为增加的复杂性导致他们很难找到自己真正需要的功能。况且，想到为那么多没用的功能买单，他们就更加不高兴了。</p>
+</blockquote>
+<p>这也是为什么我们要从用户体验的角度讲，从用户的角度看问题，从通过简单的技术或设计，去创造愉悦用户的产品体验，即 <strong>简单化</strong> 。<br><a id="more"></a></p>
+<blockquote>
+<p>简 单 并 不 意 味 着 欠 缺 或 低 劣 ， 也 不 意 味 着 不 注 重 装 饰 或 者 完 全 赤 裸 裸 。 而 是 说 装 饰 应 该 紧 密 贴 近 设 计 本 身 ， 任 何 无 关 的 要 素 都 应 该 予 以 剔 除 。<br>-Paul Jacques Grillo （From，Functionand Design）</p>
+</blockquote>
+<p>在简单化的同时，你的设计应该不能受到外界干扰，能够在人们被打断的间隙生存。<br>作者将用户分成了三种类型：专家型，随意型，主流型。</p>
+<blockquote>
+<p>专家型用户：专家型用户愿意探索你的产品或服务，这类用户占总体的少数。<br>随意性用户：随意性用户可能使用过类似的产品或服务，有兴趣使用更为复杂的产品，但是不愿意接触全新的产品，除非新功能足够简单。这类用户也很少。<br>主流用户：主流用户是最大地群体。他们使用产品的目的是完成任务，他们永远也不会产生学会所有功能的想法。“我的手机只要能打电话、发短信就行了”。</p>
+</blockquote>
+<p>并指出应该忽略专家型用户，为主流用户设计，思考主流用户需要什么，主流用户的情感诉求。</p>
+<blockquote>
+<p>简单意味着控制：让用户感到自己在操控一切。</p>
+<p>简单的体验：能够适应极端条件。</p>
+<p>同时明白用户在做“什么”，不能遗漏用户体验的每个步骤，关注主要的行动， 并且要从用户的视角，用讲故事（环境、角色、情节）的方式把它描述出来，用简便的方式，运用洞察力去思考、发现、解决、明确问题来优化用户体验，并与别人分享最核心的理念以提醒目标，最后着手设计。</p>
+</blockquote>
+<p><img src="http://oghmhjnym.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20161112034919.jpg"></p>
+<p>简而言之，<strong>简单的用户体验是初学者、新手的体验，或者是压力之下的主流用户的体验。</strong><br>对此，作者又提出了著名的简约四策略：</p>
+<blockquote>
+<p><strong>简约四策略：删除、组织、隐藏、转移。</strong></p>
+</blockquote>
+<p>即<strong>删除不必要的，组织要提供给用户的，隐藏非核心的，将复杂性转移到适合它的地方。</strong></p>
+<p><strong>简单的用户体验不简单，而是把简单留给用户，把复杂留给自己</strong>，大概就是全书最重要的一点，也是优化用户体验的宗旨。</p>
+<p>参考资料：《简约至上:交互式设计四策略》</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[CSS3实现完美background-img]]></title>
+      <url>http://yoursite.com/2016/10/06/CSS3%E5%AE%9E%E7%8E%B0%E5%AE%8C%E7%BE%8Ebackground-img/</url>
+      <content type="html"><![CDATA[<p>一张图填充整个页面，而且不会有任何空白区产生；<br>背景图片能根据显屏进行缩放；<br>背景图片缩放时以保留图像的比例（宽高比）；<br>背景图片保持在页面的中心位置处；<br>不会给页面造成滚动条的出现；<br>以实现各浏览器的兼容性问题；</p>
+<p>CSS3提供了一个属性<code>background-size</code>只要把背景图片放在<code>&lt;HTML&gt;</code>元素中，然后设置背景图片以固定方式显示就可以。<br><a id="more"></a><br>因为<code>&lt;HTML&gt;</code>元素的高度总是和浏览器的高度一致</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">html &#123;</div><div class="line">      background: url(images/perfect-full-page-bg.jpg) no-repeat center center fixed;</div><div class="line">      -webkit-background-size: cover;</div><div class="line">      -moz-background-size: cover;</div><div class="line">      -o-background-size: cover;</div><div class="line">      background-size: cover;</div><div class="line">		&#125;</div></pre></td></tr></table></figure>]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Github Pages的CNAME配置]]></title>
+      <url>http://yoursite.com/2016/10/06/Github-Pages%E7%9A%84CNAME%E9%85%8D%E7%BD%AE/</url>
+      <content type="html"><![CDATA[<p>域名解析 DNS 到 DNSPod 后，设置自定义顶级域名跳转至 Github Pages</p>
+<p>解决方法一：<br>将<code>yourname</code>替换为 Github 的<code>id</code><br>1.添加记录，设置主机记录 <code>www</code> ，记录类型<code>CNAME</code>，记录值<code>yourname.github.io</code><br>2.添加记录，设置主机记录 <code>@</code>，记录类型<code>CNAME</code>,记录值<code>yourname.github.io</code><br>完成解析。</p>
+<a id="more"></a>
+<p>解决方法二：<br><code>192.30.252.153</code>，<code>192.30.252.154</code>为 Github Pages 服务器 IP<br>1.添加记录，设置主机记录 <code>www</code> ，记录类型<code>A</code>，记录值<code>192.30.252.153</code><br>2.添加记录，设置主机记录 <code>www</code> ，记录类型<code>A</code>，记录值<code>192.30.252.154</code><br>3.添加记录，设置主机记录 <code>@</code> ，记录类型<code>CNAME</code>，记录值<code>yourname.github.io</code><br>完成解析。</p>
+<p>解析时间需等待72小时不等。</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[关于Responsive Design与Adapative Design]]></title>
+      <url>http://yoursite.com/2016/10/06/%E5%85%B3%E4%BA%8EResponsive%20Design%E4%B8%8EAdapative%20Design/</url>
+      <content type="html"><![CDATA[<p><em>Responsive Design</em> (响应式设计)：<br>建立一个网页，通过CSS Media Queries，Content－Based Breakpoint（基于内容的断点）等技术来改变网页的大小以适应不同分辨率的屏幕。</p>
+<p><em>Adaptive Design</em> (自适应设计)：<br>为不同类别的设备建立不同的网页，检测到设备分辨率大小后调用相应的网页。目前AD网页主要针对这几种分辨率（320，480，760，960，1200，1600）</p>
+<a id="more"></a>
+<p>时常混淆于这两个概念，同时看到腾讯前端团队的错误<a href="http://www.alloyteam.com/2015/04/zi-shi-ying-she-ji-yu-xiang-ying-shi-wang-ye-she-ji-qian-tan/" target="_blank" rel="external">自适应与响应式设计</a>,两个名词释义完全相反了吧。。</p>
+<blockquote>
+<p>响应式设计的要素<br>响应式设计包含三个重要的方面。<br>媒体查询：是一种CSS语法，可以根据浏览器的特性，一般是屏幕或浏览器容器宽度提供CSS规则；<br>流式布局：是使用em或百分比等相对单位设定页面总体宽度，让布局能够随屏幕大小而缩放；<br>弹性图片：是使用相对单位确保图片再大也不会超过其容器。<br>（这几个方面最早是由Ethan Marcotte提出来的，发表在2010年5月份的AList Apart杂志上）</p>
+</blockquote>
+<p>自适应网页设计也是响应式网页设计，响应式网页设计也是自适应网页设计。<br>但是真正的细分起来，自适应只是响应式的一个子集，指网页中整体大图的自适应或者banner的自适应。</p>
+<p>响应式网页设计优势：<br>流体网格的网站适合响应式网页设计。<br>灵活性强，可以适应不同分辨率的设备<br>方便快捷的解决多设备显示适应问题</p>
+<p>自适应网页设计优势：<br>固定断点的网站适合自适应网页设计。<br>实施起来代价更低，测试更容易<br>自适应布局可以让设计更加可控，因为它只需要考虑几种状态就可以了</p>
+<p>参考资料：《CSS 设计指南》, <a href="https://www.zhihu.com/question/20628050?rf=24334181" target="_blank" rel="external">知乎</a></p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[涼]]></title>
+      <url>http://yoursite.com/2016/10/02/%E6%B6%BC/</url>
+      <content type="html"><![CDATA[<p><img src="http://oghmhjnym.bkt.clouddn.com/fengling.jpg"></p>
+<p><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="298" height="52" src="http://music.163.com/outchain/player?type=2&id=625630&auto=0&height=32"></iframe><br><a id="more"></a></p>
+<div align="center"><br>夢 やぶれて 羽 ちぎれて<br>梦想的羽翼被撕裂<br><br>無惨がひとの性でしょう<br>这就是人性的悲惨吧<br><br>夢 ひとひら 羽 それぞれの<br>每个梦想都有羽翼<br><br>最後があるのね<br>最后却都不在了<br><br>最後をみていた<br>我一直在寻找，直到最后<br></div>
+
+<p><br><br><br></p>
+<p><a href="http://bangumi.tv/user/mioakiyama" target="_blank" rel="external"><img src="http://bangumi.tv/chart/img/130147" border="0" alt="Linkea 的个人主页"></a> </p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[关于Hexo deploy 至 Github 失败]]></title>
+      <url>http://yoursite.com/2016/10/01/%E5%85%B3%E4%BA%8EHexo-deploy-%E8%87%B3-Github-%E5%A4%B1%E8%B4%A5/</url>
+      <content type="html"><![CDATA[<p>当使用 <code>hexo clean&amp;&amp;hexo g&amp;&amp;hexo d</code> 无法完成 deploy 时<br>用以下命令解决<br>将 <code>yourname</code> 替换为 Github 的 <code>id</code></p>
+<p>于 <code>git base</code> 中输入<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git <span class="built_in">clone</span> https://github.com/yourname/yourname.github.io.git .deploy/yourname.github.io</div></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p>新建文本文档，输入<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">hexo generate</div><div class="line">cp -R public/* .deploy/yourname.github.io</div><div class="line"><span class="built_in">cd</span> .deploy/yourname.github.io</div><div class="line">git add .</div><div class="line">git commit -m “update”</div><div class="line">git push origin master</div></pre></td></tr></table></figure></p>
+<p>另存为 <code>.sh</code> 格式<br>运行，deploy 成功</p>
+<p>另一常用快捷 deploy 方法：<br>新建文本文档，输入<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo clean&amp;&amp;hexo g&amp;&amp;hexo d</div></pre></td></tr></table></figure></p>
+<p>另存为 <code>.sh</code> 格式<br>运行，同样 deploy 成功，可能有未知 deploy 失败，则用以上的另一方法解决。</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Hello-World]]></title>
+      <url>http://yoursite.com/2016/10/01/Hello-World/</url>
+      <content type="html"><![CDATA[<p>TEST</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
+]]></content>
+    </entry>
+    
+  
+  
+</search>

@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="FE,UX," />
+  <meta name="keywords" content="FE,BE," />
 
 
 
@@ -84,19 +84,19 @@
 
 
 
-<meta name="description" content="Progressive Web App(PWA) 是 Google 在 Web 平台开始推广的一个新概念，可以理解为是尽可能借助目前的新技术（比如 Service Worker ， Push Notification 及其他展现层的新技术），让 Web App 的体验无限接近 Native App 。Native App，即本地化App，日常使用的iOS/Android应用即Native App。">
+<meta name="description" content="JavaScript是单线程运行的，但可以创建回调函数平行线程与主线程并行运行实现异步编程。12345setTimeout(function () &amp;#123;    console.log(&apos;Async&apos;);&amp;#125;, 500);console.log(&apos;Hello&apos;);">
 <meta property="og:type" content="article">
-<meta property="og:title" content="App的未来用户体验-Progressive Web App">
-<meta property="og:url" content="http://yoursite.com/2016/12/24/App的未来用户体验-Progressive-Web-App/index.html">
+<meta property="og:title" content="Node.js异步回调：非阻塞调用简单实例">
+<meta property="og:url" content="http://yoursite.com/2017/08/12/Node-js异步回调：非阻塞调用实例/index.html">
 <meta property="og:site_name" content="桜の空 Sakusora">
-<meta property="og:description" content="Progressive Web App(PWA) 是 Google 在 Web 平台开始推广的一个新概念，可以理解为是尽可能借助目前的新技术（比如 Service Worker ， Push Notification 及其他展现层的新技术），让 Web App 的体验无限接近 Native App 。Native App，即本地化App，日常使用的iOS/Android应用即Native App。">
-<meta property="og:image" content="http://oghmhjnym.bkt.clouddn.com/pwa.gif">
-<meta property="og:image" content="http://oghmhjnym.bkt.clouddn.com/85596129809131dc20371491e4acb9ee_r.png">
-<meta property="og:updated_time" content="2016-12-24T13:56:25.000Z">
+<meta property="og:description" content="JavaScript是单线程运行的，但可以创建回调函数平行线程与主线程并行运行实现异步编程。12345setTimeout(function () &amp;#123;    console.log(&apos;Async&apos;);&amp;#125;, 500);console.log(&apos;Hello&apos;);">
+<meta property="og:image" content="http://oghmhjnym.bkt.clouddn.com/HelloAsync.png">
+<meta property="og:image" content="http://oghmhjnym.bkt.clouddn.com/fsAsync.png">
+<meta property="og:updated_time" content="2018-03-04T17:53:00.377Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="App的未来用户体验-Progressive Web App">
-<meta name="twitter:description" content="Progressive Web App(PWA) 是 Google 在 Web 平台开始推广的一个新概念，可以理解为是尽可能借助目前的新技术（比如 Service Worker ， Push Notification 及其他展现层的新技术），让 Web App 的体验无限接近 Native App 。Native App，即本地化App，日常使用的iOS/Android应用即Native App。">
-<meta name="twitter:image" content="http://oghmhjnym.bkt.clouddn.com/pwa.gif">
+<meta name="twitter:title" content="Node.js异步回调：非阻塞调用简单实例">
+<meta name="twitter:description" content="JavaScript是单线程运行的，但可以创建回调函数平行线程与主线程并行运行实现异步编程。12345setTimeout(function () &amp;#123;    console.log(&apos;Async&apos;);&amp;#125;, 500);console.log(&apos;Hello&apos;);">
+<meta name="twitter:image" content="http://oghmhjnym.bkt.clouddn.com/HelloAsync.png">
 
 
 
@@ -117,9 +117,9 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/12/24/App的未来用户体验-Progressive-Web-App/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/08/12/Node-js异步回调：非阻塞调用实例/"/>
 
-  <title> App的未来用户体验-Progressive Web App | 桜の空 Sakusora </title>
+  <title> Node.js异步回调：非阻塞调用简单实例 | 桜の空 Sakusora </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -277,7 +277,7 @@
             
             
               
-                App的未来用户体验-Progressive Web App
+                Node.js异步回调：非阻塞调用简单实例
               
             
           </h1>
@@ -289,8 +289,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-12-24T20:43:59+08:00" content="2016-12-24">
-              2016-12-24
+            <time itemprop="dateCreated" datetime="2017-08-12T22:42:39+08:00" content="2017-08-12">
+              2017-08-12
             </time>
           </span>
 
@@ -317,24 +317,12 @@
       
 
       
-        <p><strong>Progressive Web App</strong>(<em>PWA</em>) 是 Google 在 Web 平台开始推广的一个新概念，可以理解为是尽可能借助目前的新技术（比如 Service Worker ， Push Notification 及其他展现层的新技术），让 Web App 的体验无限接近 Native App 。Native App，即本地化App，日常使用的iOS/Android应用即Native App。</p>
-<blockquote>
-<p>Progressive 主要有这两层含义<br>如果用户需要，网页可以渐进式地变成 App，比如被添加到主屏幕、全屏方式运行、离线工作、推送通知消息等。但它仍是 Web 而非放到 App Store 里。<br>所有这些“使得 Web 更能与 App 匹敌”的特性都是以渐进的方式增强的，在比传统网页应用更好的同时也保证了降级兼容。</p>
-</blockquote>
-<a id="more"></a>
-<p><strong>Progressive Web App的外观和行为都同原生移动应用类似，但它本质上上仍然是Web应用，不需要通过应用商店部署从PWA这些特性来看，无论对于开发者，还是对于用户，都能实现绝佳的用户体验。对开发人员而言，他们无需通过应用商店发布应用，版本发布和Bug修复可以更及时。对用户而言，他们无需在设备上安装应用。与原生/混合应用相比，这大大节省了设备的存储空间。</strong></p>
-<p><img src="http://oghmhjnym.bkt.clouddn.com/pwa.gif"></p>
-<div align="center">PWA使用演示</div>
-
-<p><br></p>
-<blockquote>
-<p><strong>PWA可替代Nativa App的基本优点</strong><br>可添加到主屏幕及全屏运行(提供Native App的外观行为,类App的原生交互)<br>离线能力（保证断网/弱网下可用）<br>通知推送（唤回用户及通知即时消息）</p>
-<p><strong>PWA相比Nativa App的主要优点</strong><br>渐进增强（为支持的设备提供更好体验同时保证不支持设备的基本体验）<br>敏捷开发部署（版本更新无需通过商店审核，保证开发速度）<br>异步加载（保证可用性及解决网络连接加载数据延迟）<br>免下载安装，即点即用（充分利用Web优点，解决App需安装而造成用户流失问题）<br>轻量级（提供网页般的启动速度及性能）</p>
-</blockquote>
-<p>PWA能提供类Native App的原生交互体验,但限于浏览器性能及网络性能，PWA在目前只能算未来的App替代品，所以标题取之未来用户体验，及PWA在未来提供的相比Native App更好的用户体验。<br>但<strong>PWA附加提供的免安装即点即用特性能带来更多的新用户及增强用户的黏性，消除版本安装/更新麻烦给用户带来的隐形壁垒而造成的隐藏用户流失，及提供快速的产品使用体验。</strong></p>
-<p><img src="http://oghmhjnym.bkt.clouddn.com/85596129809131dc20371491e4acb9ee_r.png"></p>
-<p><div align="center">Mobile Web的月UV领先Mobile App（8.9M vs. 3.3M）</div><br><br><br>个人认为长远来看，如果PWA计划实行成功，必将取代Native App，提供更好的交互体验，尤其在保证Native App的外观/行为体验上提供更好的免安装即点即用的体验，这将给当前App市场带来新一轮革命。</p>
-<p>参考资料：<a href="https://www.zhihu.com/question/46690207?sort=created" target="_blank" rel="external">知乎</a></p>
+        <p> JavaScript是单线程运行的，但可以创建回调函数平行线程与主线程并行运行实现异步编程。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'Async'</span>);</div><div class="line">&#125;, <span class="number">500</span>);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="string">'Hello'</span>);</div></pre></td></tr></table></figure></p>
+ <a id="more"></a>
+<p>输出结果可以看到后续打印代码先于回调代码执行。<br><img src="http://oghmhjnym.bkt.clouddn.com/HelloAsync.png"><br>但即使平行线程执行完毕了通知主线程进行回调时，回调函数也需等到主线程空闲时才可执行。</p>
+<p>同样的， <strong>Node.js依赖回调函数实现异步I/O，所有API都支持回调函数，通过非阻塞调用异步来实现处理高并发请求</strong><br>新建文件<code>fsAsyncTest.txt</code>,写入<code>Hello Async</code>并保存。<br>创建实例<code>fsReadTest.js</code>代码如下<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>); </div><div class="line">fs.readFile(<span class="string">'fsAsyncTest.txt'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">err,data</span>)</span>&#123;</div><div class="line">    <span class="keyword">if</span> (err) <span class="keyword">return</span> <span class="built_in">console</span>.error(err);</div><div class="line">    <span class="built_in">console</span>.log(data.toString());</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="string">'Finish Read'</span>);</div></pre></td></tr></table></figure></p>
+<p>输出结果同样可以看到后续打印先于回调代码执行。<br><img src="http://oghmhjnym.bkt.clouddn.com/fsAsync.png"><br>异步通过回调函数实现了在读取文件时同时执行后续代码，无需等待文件读取完再执行后续代码，非阻塞调用提高了性能。</p>
+<p>参考资料：<a href="http://http://nqdeng.github.io/7-days-nodejs/#6/" target="_blank" rel="external">阿里巴巴Node.js文档</a></p>
 
       
     </div>
@@ -359,7 +347,7 @@
           
             <a href="/tags/FE/" rel="tag">#FE</a>
           
-            <a href="/tags/UX/" rel="tag">#UX</a>
+            <a href="/tags/BE/" rel="tag">#BE</a>
           
         </div>
       
@@ -368,16 +356,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/12/20/Material-Design设计模式/" rel="next" title="Material Design设计模式">
-                <i class="fa fa-chevron-left"></i> Material Design设计模式
+              <a href="/2017/05/02/PhantomJS简单爬虫应用实例：抓取目标url指定数据并截图/" rel="next" title="PhantomJS简单爬虫应用实例：抓取目标url指定数据并截图">
+                <i class="fa fa-chevron-left"></i> PhantomJS简单爬虫应用实例：抓取目标url指定数据并截图
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/01/14/微交互-细节决定成败/" rel="prev" title="微交互-细节决定成败">
-                微交互-细节决定成败 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/03/03/致力绽放的用户体验：用心设计，灵活协作/" rel="prev" title="致力绽放的用户体验：用心设计，灵活协作">
+                致力绽放的用户体验：用心设计，灵活协作 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

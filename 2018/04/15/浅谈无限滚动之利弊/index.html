@@ -1,0 +1,665 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="UX,IxD," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="无限滚动之利得益于AJAX和懒加载技术，最初由Pinterest发明的瀑布流式布局开始在国内流行开来，开始只是图片分享类网站采用，而基于此演变出的无限滚动更是风靡各类APP和社交媒体、电商网站。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅谈无限滚动之利弊">
+<meta property="og:url" content="http://yoursite.com/2018/04/15/浅谈无限滚动之利弊/index.html">
+<meta property="og:site_name" content="桜の空 Sakusora">
+<meta property="og:description" content="无限滚动之利得益于AJAX和懒加载技术，最初由Pinterest发明的瀑布流式布局开始在国内流行开来，开始只是图片分享类网站采用，而基于此演变出的无限滚动更是风靡各类APP和社交媒体、电商网站。">
+<meta property="og:image" content="http://oghmhjnym.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20180415221420.jpg">
+<meta property="og:image" content="http://oghmhjnym.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20180415221006.jpg">
+<meta property="og:image" content="http://oghmhjnym.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20180415221231.jpg">
+<meta property="og:image" content="http://oghmhjnym.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20180415220634.jpg">
+<meta property="og:image" content="http://oghmhjnym.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20180415210149.jpg">
+<meta property="og:image" content="http://oghmhjnym.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20180415213903.jpg">
+<meta property="og:image" content="http://oghmhjnym.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20180415210036.jpg">
+<meta property="og:image" content="http://oghmhjnym.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20180415214502.jpg">
+<meta property="og:updated_time" content="2018-04-15T14:14:58.438Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="浅谈无限滚动之利弊">
+<meta name="twitter:description" content="无限滚动之利得益于AJAX和懒加载技术，最初由Pinterest发明的瀑布流式布局开始在国内流行开来，开始只是图片分享类网站采用，而基于此演变出的无限滚动更是风靡各类APP和社交媒体、电商网站。">
+<meta name="twitter:image" content="http://oghmhjnym.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20180415221420.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"remove"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/15/浅谈无限滚动之利弊/"/>
+
+  <title> 浅谈无限滚动之利弊 | 桜の空 Sakusora </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+  
+    <div class="synesthesia-logo" style="margin-top:20%">
+	<img alt="" src="/images/Synesthesia.png" width="300px">
+	</div>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-synesthesia">
+          <a href="http://synesthesia.cc" rel="section">
+            
+            Synesthesia
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-github">
+          <a href="https://github.com/Linkea" rel="section">
+            
+            GitHub
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-pixiv">
+          <a href="http://www.pixiv.net/member.php?id=12939590" rel="section">
+            
+            pixiv
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-bangumi">
+          <a href="http://bangumi.tv/user/mioakiyama" rel="section">
+            
+            Bangumi
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                浅谈无限滚动之利弊
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2018-04-15T20:20:33+08:00" content="2018-04-15">
+              2018-04-15
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="无限滚动之利"><a href="#无限滚动之利" class="headerlink" title="无限滚动之利"></a>无限滚动之利</h3><p>得益于AJAX和懒加载技术，最初由Pinterest发明的瀑布流式布局开始在国内流行开来，开始只是图片分享类网站采用，而基于此演变出的无限滚动更是风靡各类APP和社交媒体、电商网站。<br><a id="more"></a></p>
+<h4 id="极优的浏览体验"><a href="#极优的浏览体验" class="headerlink" title="极优的浏览体验"></a>极优的浏览体验</h4><p>如今无限滚动这一交互设计方案已经被各种类型的网站和APP所采用，早已不再新鲜，成为了一种十分常见的设计模式。<br><img src="http://oghmhjnym.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20180415221420.jpg"><br>其首要好处在于：用户只需要下拉，网页就能自动加载新的内容。</p>
+<p>是的，人就那么懒，往下一拉（滚动或用鼠标拖拽或用手指触摸上拉拖拽）等加载，十分的舒服。这无疑很高效，极大的减少了用户的操作成本和时间成本。</p>
+<p>传统网页上需要点击”下一页“或”载入更多“的操作步骤就这么直接了当的被秒杀了。用户不再需要点击复杂的页码导航条就能看带新的内容。</p>
+<p>往往就是这么一个微交互能影响整个应用、网站的用户体验，懒果然是人类进步的阶梯，尤其在这个快餐时代，懒就是生产力，快就是硬道理。</p>
+<h4 id="沉浸式浏览"><a href="#沉浸式浏览" class="headerlink" title="沉浸式浏览"></a>沉浸式浏览</h4><p>传统网页，用户在浏览过程中，需要点击”下一页“或”载入更多“来查看新内容。这步操作无疑打断了用户在浏览时的沉浸度，也花费了不少时间去点击按钮，然后等待页面重新加载。<br><img src="http://oghmhjnym.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20180415221006.jpg"><br>无限滚动却只要简单的往下拉，然后等待内容呈现就行了，花费的仅仅是网络加载新内容所花的时间。用户可以更好地关注内容，而不是思考如何操作在各式各样的导航条。</p>
+<h4 id="对移动设备友好"><a href="#对移动设备友好" class="headerlink" title="对移动设备友好"></a>对移动设备友好</h4><p>对触屏设备用户来说，下拉查看是一个不能再正常的操作了。无限滚动正符合了这样的操作习惯。用户完全不用学习怎么使用无限滚动，只要下拉就会发现页面/应用在自动加载新的内容。<br><img src="http://oghmhjnym.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20180415221231.jpg"><br>但无限滚动显然并不适用于所有网站。</p>
+<h3 id="无限滚动之弊"><a href="#无限滚动之弊" class="headerlink" title="无限滚动之弊"></a>无限滚动之弊</h3><p>谈完以上优点，现在谈谈缺点。</p>
+<h4 id="难以查看页脚"><a href="#难以查看页脚" class="headerlink" title="难以查看页脚"></a>难以查看页脚</h4><p>举个例子，当我试图在新浪微博首页(未登录状态)寻找通常网页页脚应存在的官方信息而下拉网页时，网页却开始自动加载新的微博内容。本来下意识的觉得应该自动加载两三次就停止了，没想到随着我的下拉，内容也在不断加载：每当页脚内容一出现，网页也开始自动loading载入新内容，页脚就闪现而过变得离我越来越远，滚动条也越来越长。</p>
+<p>仿佛在考验我的手速和网速一样，让我十分抓狂。以至于我不断地在其各分栏跳转，试图找到没有无限滚动、可以点击到页脚的页面。结果发现每个分栏也都是用的无限滚动（心累）。最后不得不直接F12，抓HTML源码看页脚。<br><img src="http://oghmhjnym.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20180415220634.jpg"><br>无限滚动导致截图都试了好多次才能截到页脚，更何提点到页脚。</p>
+<p>这也是我写这篇文章的出发点，因为实在太蛋疼了。虽然这样的情况并不普遍，但随着我的调查，发现也有很少一部分用户在抱怨。这是大多数用户会遇到的问题。</p>
+<p>是的，仿佛在考验用户手速和网速的配合。</p>
+<h4 id="难以定位"><a href="#难以定位" class="headerlink" title="难以定位"></a>难以定位</h4><p>无限滚动的另一缺点在于，用户难以定位看过的内容，且难以返回页首。</p>
+<p>在网页的哪一位置？滚动条会随着无限滚动的新内容载入而变得越来越长，想找到之前的内容显然并不简单。也许你会说，CTRL+F啊，多easy！但实际上大多数用户并不是极客，尽管这样来定位内容相当简单，但学习成本还是过高：浏览器什么时候有快捷键的入门演示了？</p>
+<p>同时随着网页不断变长，用户想返回页首时就得花费不少力气在往上划了。</p>
+<p>相比传统网页使用的分页模式，传统分页模式单页内的内容数量是固定的，用户可以很容易地在一定的内容范围内定位想找的内容，网页长度也是固定的，能很快地一划返回页首。<br><img src="http://oghmhjnym.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20180415210149.jpg"><br>其页脚也是处于可及位置。</p>
+<h4 id="耗费大量资源"><a href="#耗费大量资源" class="headerlink" title="耗费大量资源"></a>耗费大量资源</h4><p>无限滚动会使得网页内容变得越来越多，浏览器/应用的资源占用肯定也变得越来越大。</p>
+<p>在配置相对低的设备上，优化不好容易出现卡顿、甚至死机崩溃的现像。这简直就是用户所不能忍的：卡顿本来就让人觉得很烦了，一崩溃，请问用户体验是什么东西来着？？？</p>
+<h3 id="合适的解决方案"><a href="#合适的解决方案" class="headerlink" title="合适的解决方案"></a>合适的解决方案</h3><p>当然这些缺点也不是并不能解决的。</p>
+<h4 id="针对页脚问题"><a href="#针对页脚问题" class="headerlink" title="针对页脚问题"></a>针对页脚问题</h4><p>有的网站会在自动加载一定次数过后停止，就像我刚开始等待微博停止载入那样。例如京东官网，在自动加载滚动一定次数后会停止而显示页脚。这其实已经对无限加载进行了改良，但并不完美。如果用户还想继续查看新内容怎么办？怎么在页脚内容和新内容自动载入做较好的权衡？<br><img src="http://oghmhjnym.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20180415213903.jpg"></p>
+<p>个人认为，如果在自动加载一定次数过后(5次以上为一循环)，自动停止载入新内容，并显示”加载更多“的手动点击按钮以进入下一次循环。（如图对京东附加的改良示图）这样做，既能在抓到页脚的同时，又保持有无限滚动在用户体验上带来的优势。</p>
+<p>知乎在这个问题上处理的也不错，将页脚放至另一边。<br><img src="http://oghmhjnym.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20180415210036.jpg"><br>内容在无限滚动的同时不影响页脚的位置。</p>
+<h4 id="针对定位问题"><a href="#针对定位问题" class="headerlink" title="针对定位问题"></a>针对定位问题</h4><p>灵感来自Discourse(国外新兴的论坛系统)，其很好地做到了如何在无限滚动的情况下又能让用户很好地定位到内容所在位置。<br><img src="http://oghmhjnym.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20180415214502.jpg"><br>Discourse在页面上又放置了一个竖滚动条，滚动条上以图形显示评论位置的同时，注释了当前所在回复的位置，给出了一个具体位置数字，而不是在无限变长的滚动条上让瞎猜内容位置。</p>
+<p>同时应在滚动条旁边附加个返回页首的按钮，方便用户一点就回页首查看其它页面内容，而不是让用户疯狂的费力上划。</p>
+<p>当然无限滚动并不能完全适配所有类型的网站，这得看网站的需求和客户类型了。以上表述分析的仅供参考。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/UX/" rel="tag">#UX</a>
+          
+            <a href="/tags/IxD/" rel="tag">#IxD</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/03/致力绽放的用户体验：用心设计，灵活协作/" rel="next" title="致力绽放的用户体验：用心设计，灵活协作">
+                <i class="fa fa-chevron-left"></i> 致力绽放的用户体验：用心设计，灵活协作
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  &nbsp|&nbsp 
+  <span class="author" itemprop="copyrightHolder">Linkea</span>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
